@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/marcosh/eventgraph.svg?branch=master)](https://travis-ci.org/marcosh/eventgraph)
+
 eventgraph
 ==========
 
