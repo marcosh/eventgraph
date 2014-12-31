@@ -52,4 +52,12 @@ class EventGraph
     {
         return $this->tags->getTag($tag);
     }
+
+    /**
+     * @param object Tag
+     */
+    public function saveTag($tag)
+    {
+        return $this->tags->saveTag($tag);
+    }
 }

@@ -23,6 +23,10 @@ class Tags
         return $tag;
     }
 
+    /**
+     * @param object record coming from the database
+     * @return Tag
+     */
     public function createFromData(\PhpOrient\Protocols\Binary\Data\Record $record)
     {
         return $this->createTag($record->getOData()['name']);
@@ -37,6 +41,14 @@ class Tags
         $query = sprintf('select from Tag where name = "%s"', $tagName);
         $tagData = $this->database->query($query);
         $tag = $this->createFromData($tagData[0]);
-        var_dump($tag);
+    }
+
+    /**
+     * @param Tag
+     */
+    public function saveTag($tag)
+    {
+        $query = sprintf('insert into Tag set name = "%s"', $tag->getName());
+        $this->database->command($query);
     }
 }

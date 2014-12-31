@@ -16,6 +16,11 @@ class EventGraphTest extends \PHPUnit_Framework_TestCase
         $this->eventGraph = new EventGraph($this->client, 'dbName');
     }
 
+    public function tearDown()
+    {
+        \Mockery::close();
+    }
+
     public function testCreateTag()
     {
         $tag = new Tag();
@@ -35,5 +40,14 @@ class EventGraphTest extends \PHPUnit_Framework_TestCase
             $event,
             $this->eventGraph->createEvent($tag)
         );
+    }
+
+    public function testSaveTag()
+    {
+        $this->client->shouldReceive('command')->once()
+            ->with('insert into Tag set name = "tag"');
+
+        $tag = $this->eventGraph->createTag('tag');
+        $this->eventGraph->saveTag($tag);
     }
 }
