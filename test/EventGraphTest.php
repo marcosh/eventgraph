@@ -50,4 +50,16 @@ class EventGraphTest extends \PHPUnit_Framework_TestCase
         $tag = $this->eventGraph->createTag('tag');
         $this->eventGraph->saveTag($tag);
     }
+
+    public function testGetTag()
+    {
+        $tag = new \PhpOrient\Protocols\Binary\Data\Record();
+        $tag->setOData(array('name' => 'tag'));
+
+        $this->client->shouldReceive('query')->once()
+            ->with('select from Tag where name = "tag"')
+            ->andReturn(array($tag));
+
+        $this->eventGraph->getTag('tag');
+    }
 }

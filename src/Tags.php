@@ -27,7 +27,7 @@ class Tags
      * @param object record coming from the database
      * @return Tag
      */
-    public function createFromData(\PhpOrient\Protocols\Binary\Data\Record $record)
+    private function createFromData(\PhpOrient\Protocols\Binary\Data\Record $record)
     {
         return $this->createTag($record->getOData()['name']);
     }
