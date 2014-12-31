@@ -10,4 +10,21 @@ class Events
     {
         $this->database = $database;
     }
+
+    /**
+     * @param mixed Tag or array of Tags
+     * @return event
+     */
+    public function createEvent($tags)
+    {
+        $event = new Event();
+
+        if (is_array($tags)) {
+            $event->setTags($tags);
+        } else {
+            $event->setTags(array($tags));
+        }
+
+        return $event;
+    }
 }

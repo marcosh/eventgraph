@@ -28,7 +28,8 @@ class EventTest extends \PHPUnit_Framework_TestCase
         $tag1 = new Tag('tag1');
         $tag2 = new Tag('tag2');
         $tags = array($tag1, $tag2);
-        $event = new Event($tags);
+        $event = new Event();
+        $event->setTags($tags);
         $this->assertEquals($tags, $event->getTags());
     }
 }

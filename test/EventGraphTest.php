@@ -12,31 +12,27 @@ class EventGraphTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->client = \Mockery::mock();
-        $this->client->shouldReceive('getDatabase');
+        $this->client->shouldReceive('dbOpen');
         $this->eventGraph = new EventGraph($this->client, 'dbName');
     }
 
     public function testCreateTag()
     {
+        $tag = new Tag();
+        $tag->setName('tag');
         $this->assertEquals(
-            new Tag('tag'),
+            $tag,
             $this->eventGraph->createTag('tag')
-        );
-    }
-
-    public function testCreateTags()
-    {
-        $this->assertEquals(
-            array(new Tag('tag1'), new Tag('tag2')),
-            $this->eventGraph->createTags(array('tag1', 'tag2'))
         );
     }
 
     public function testCreateEvent()
     {
         $tag = $this->eventGraph->createTag('tag');
+        $event = new Event();
+        $event->setTags(array($tag));
         $this->assertEquals(
-            new Event($tag),
+            $event,
             $this->eventGraph->createEvent($tag)
         );
     }

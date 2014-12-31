@@ -15,11 +15,11 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/orientechnologies/php-orientdb"
+            "url": "https://github.com/orientechnologies/PhpOrient"
         }
     ],
     "require": {
-        "codemix/orientdb": "master-dev"
+        "Ostico/orientdb": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "4.*",

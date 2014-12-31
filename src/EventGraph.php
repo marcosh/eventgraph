@@ -16,10 +16,10 @@ class EventGraph
      */
     public function __construct($client, $databaseName)
     {
-        $database = $client->getDatabase($databaseName);
+        $client->dbOpen($databaseName);
 
-        $this->events = new Events($database);
-        $this->tags = new Tags($database);
+        $this->events = new Events($client);
+        $this->tags = new Tags($client);
     }
 
     /**
@@ -30,8 +30,7 @@ class EventGraph
      */
     public function createEvent($tags)
     {
-        $event = new Event($tags);
-        return $event;
+        return $this->events->createEvent($tags);
     }
 
     /**
@@ -42,21 +41,7 @@ class EventGraph
      */
     public function createTag($tag)
     {
-        $tag = new Tag($tag);
-        return $tag;
-    }
-
-    /**
-     * creates an array of Tags from an array on strings
-     *
-     * @param array of strings
-     * @return array of Tags
-     */
-    public function createTags(array $tags)
-    {
-        return array_map(function ($tag) {
-            return $this->createTag($tag);
-        }, $tags);
+        return $this->tags->createTag($tag);
     }
 
     /**
@@ -65,6 +50,6 @@ class EventGraph
      */
     public function getTag($tag)
     {
-
+        return $this->tags->getTag($tag);
     }
 }
