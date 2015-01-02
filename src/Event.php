@@ -78,10 +78,15 @@ class Event
 
     /**
      * @param string
-     * @return string id of the event
+     * @return mixed string id of the event or
+     *      associative array with tags mapping to their previous event
      */
-    public function getPrev($tag)
+    public function getPrev($tag = null)
     {
+        if ($tag === null) {
+            return $this->prev;
+        }
+
         return $this->prev[$tag];
     }
 
@@ -98,20 +103,36 @@ class Event
 
     /**
      * @param string
-     * @return string id of the event
+     * @return mixed string id of the event or
+     *      associative array with tags mapping to their previous event
      */
-    public function getNext($tag)
+    public function getNext($tag = null)
     {
+        if ($tag === null) {
+            return $this->next;
+        }
+
         return $this->next[$tag];
     }
 
     /**
-     * @param array of Tags
+     * @param string
+     * @return Event
+     */
+    public function addTag($tag)
+    {
+        $this->tags[] = $tag;
+        return $this;
+    }
+
+    /**
+     * @param array of strings
      * @return Event
      */
     public function setTags(array $tags)
     {
         $this->tags = $tags;
+        return $this;
     }
 
     public function getTags()

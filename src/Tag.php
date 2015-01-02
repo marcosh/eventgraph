@@ -38,7 +38,7 @@ class Tag
     }
 
     /**
-     * @param string
+     * @param string id of the event
      * @return Tag
      */
     public function setFirstEvent($event)
@@ -56,7 +56,7 @@ class Tag
     }
 
     /**
-     * @param string
+     * @param string id of the event
      * @return Tag
      */
     public function setLastEvent($event)
