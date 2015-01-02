@@ -27,4 +27,33 @@ class Events
 
         return $event;
     }
+
+    /**
+     * @param Event
+     */
+    public function saveEvent(Event $event)
+    {
+        $query = 'insert into Event set name = "%name%", ts = "%ts%"';
+        $data = array(
+            '%name%' => $event->getName(),
+            'ts' => $event->getTs()
+        );
+
+        if ($event->getTags()) {
+            $query .= ', tags = [%tags%]';
+            $data['%tags%'] = implode(',', $event->getTags());
+        }
+
+        if ($event->getPrev()) {
+            $query .= ', prev = {"%prevs%"}';
+            $data['%prevs%'] = "";
+        }
+
+        if ($event->getNext()) {
+            $query .= ', next = {"%nexts%"}';
+            $data['%nexts%'] = "";
+        }
+
+        $this->database->command(strtr($query, $data));
+    }
 }

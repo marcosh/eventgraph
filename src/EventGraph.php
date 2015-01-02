@@ -23,17 +23,6 @@ class EventGraph
     }
 
     /**
-     * creates an event associated to the given tags
-     *
-     * @param mixed Tag or array of Tags
-     * @return object the Event
-     */
-    public function createEvent($tags)
-    {
-        return $this->events->createEvent($tags);
-    }
-
-    /**
      * creates a Tag object with the given tag
      *
      * @param string
@@ -42,6 +31,14 @@ class EventGraph
     public function createTag($tag)
     {
         return $this->tags->createTag($tag);
+    }
+
+    /**
+     * @param object Tag
+     */
+    public function saveTag(Tag $tag)
+    {
+        return $this->tags->saveTag($tag);
     }
 
     /**
@@ -54,10 +51,21 @@ class EventGraph
     }
 
     /**
-     * @param object Tag
+     * creates an event associated to the given tags
+     *
+     * @param mixed Tag or array of Tags
+     * @return object the Event
      */
-    public function saveTag($tag)
+    public function createEvent($tags)
     {
-        return $this->tags->saveTag($tag);
+        return $this->events->createEvent($tags);
+    }
+
+    /**
+     * @param Event
+     */
+    public function saveEvent(Event $event)
+    {
+        return $this->events->saveEvent($event);
     }
 }

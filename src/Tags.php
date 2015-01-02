@@ -27,8 +27,14 @@ class Tags
      * @param object record coming from the database
      * @return Tag
      */
-    private function createFromData(\PhpOrient\Protocols\Binary\Data\Record $record)
+    public function createFromData(\PhpOrient\Protocols\Binary\Data\Record $record)
     {
+        $data = $record->getOData();
+
+        $tag = new Tag();
+        $tag->setName($data['name'])
+            ->setFirstEvent($data['first'])
+            ->setLastEvent($data['last']);
         return $this->createTag($record->getOData()['name']);
     }
 
@@ -38,8 +44,9 @@ class Tags
      */
     public function getTag($tagName)
     {
-        $query = sprintf('select from Tag where name = "%s"', $tagName);
-        $tagData = $this->database->query($query);
+        $query = 'select from Tag where name = "%tagName%"';
+        $data = array('%tagName%' => $tagName);
+        $tagData = $this->database->query(strtr($query, $data));
         $tag = $this->createFromData($tagData[0]);
     }
 
@@ -48,7 +55,19 @@ class Tags
      */
     public function saveTag($tag)
     {
-        $query = sprintf('insert into Tag set name = "%s"', $tag->getName());
-        $this->database->command($query);
+        $query = 'insert into Tag set name = "%tagName%"';
+        $data = array('%tagName%' => $tag->getName());
+
+        if ($tag->getFirstEvent()) {
+            $query .= ', first = "%first%"';
+            $data['%first%'] = $tag->getFirstEvent();
+        }
+
+        if ($tag->getLastEvent()) {
+            $query .= ', last = "%last%"';
+            $data['%last%'] = $tag->getLastEvent();
+        }
+
+        $this->database->command(strtr($query, $data));
     }
 }

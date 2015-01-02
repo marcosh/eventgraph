@@ -26,6 +26,10 @@ PREPARE DATABASE:
 
     create property Event.name string
     create property Event.ts datetime
-    create property Event.tags linklist Tag
-    create property Event.prev linkset Event
-    create property Event.next linkset Event
+    create property Event.tags linkset Tag
+    create property Event.prev linkmap Event
+    create property Event.next linkmap Event
+
+- create indeces
+
+    create index Tag.name unique

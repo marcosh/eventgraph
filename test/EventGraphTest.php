@@ -42,7 +42,7 @@ class EventGraphTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testSaveTag()
+    public function testSaveTagWithoutEvents()
     {
         $this->client->shouldReceive('command')->once()
             ->with('insert into Tag set name = "tag"');
@@ -51,10 +51,42 @@ class EventGraphTest extends \PHPUnit_Framework_TestCase
         $this->eventGraph->saveTag($tag);
     }
 
+    public function testSaveTagWithFirstEvent()
+    {
+        $this->client->shouldReceive('command')->once()
+            ->with('insert into Tag set name = "tag", first = "#1:1"');
+
+        $tag = $this->eventGraph->createTag('tag')->setFirstEvent('#1:1');
+        $this->eventGraph->saveTag($tag);
+    }
+
+    public function testSaveTagWithLastEvent()
+    {
+        $this->client->shouldReceive('command')->once()
+            ->with('insert into Tag set name = "tag", last = "#1:1"');
+
+        $tag = $this->eventGraph->createTag('tag')->setLastEvent('#1:1');
+        $this->eventGraph->saveTag($tag);
+    }
+
+    public function testSaveTagWithFirstAndLastEvent()
+    {
+        $this->client->shouldReceive('command')->once()
+            ->with('insert into Tag set name = "tag", first = "#1:1", last = "#1:2"');
+
+        $tag = $this->eventGraph->createTag('tag')
+            ->setFirstEvent('#1:1')->setLastEvent('#1:2');
+        $this->eventGraph->saveTag($tag);
+    }
+
     public function testGetTag()
     {
         $tag = new \PhpOrient\Protocols\Binary\Data\Record();
-        $tag->setOData(array('name' => 'tag'));
+        $tag->setOData(array(
+            'name' => 'tag',
+            'first' => '#1:1',
+            'last' => '#1:2'
+        ));
 
         $this->client->shouldReceive('query')->once()
             ->with('select from Tag where name = "tag"')
