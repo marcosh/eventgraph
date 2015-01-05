@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/marcosh/eventgraph.svg?branch=master)](https://travis-ci.org/marcosh/eventgraph)
+[![Coverage Status](https://img.shields.io/coveralls/marcosh/eventgraph.svg)](https://coveralls.io/r/marcosh/eventgraph)
 
 eventgraph
 ==========
@@ -33,3 +34,10 @@ PREPARE DATABASE:
 - create indeces
 
     create index Tag.name unique
+
+OPERATIONS:
+
+- create a new Tag with a given name
+- create a new Event associated to some tags
+- retrieve a tag first event, last event or complete history
+- retrieve the previous or next event of an event with respect to a given tag
