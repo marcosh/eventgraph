@@ -12,12 +12,14 @@ class Events
     }
 
     /**
+     * @param string
      * @param mixed Tag or array of Tags
      * @return event
      */
-    public function createEvent($tags)
+    public function createEvent($name, $tags)
     {
         $event = new Event();
+        $event->setName($name)->setTs(date("Y-m-d H:i:s"));
 
         if (is_array($tags)) {
             $event->setTags($tags);
@@ -33,16 +35,12 @@ class Events
      */
     public function saveEvent(Event $event)
     {
-        $query = 'insert into Event set name = "%name%", ts = "%ts%"';
+        $query = 'update Event set name = "%name%", ts = "%ts%", tags = [%tags%]';
         $data = array(
             '%name%' => $event->getName(),
-            'ts' => $event->getTs()
+            '%ts%' => $event->getTs(),
+            '%tags%' => implode(',', $event->getTags())
         );
-
-        if ($event->getTags()) {
-            $query .= ', tags = [%tags%]';
-            $data['%tags%'] = implode(',', $event->getTags());
-        }
 
         if ($event->getPrev()) {
             $query .= ', prev = {"%prevs%"}';
@@ -53,7 +51,13 @@ class Events
             $query .= ', next = {"%nexts%"}';
             $data['%nexts%'] = "";
         }
+        $query .= 'upsert where name = "%name%", ts = "%ts%", tags = [%tags%]';
 
         $this->database->command(strtr($query, $data));
+    }
+
+    public function getEvent($id)
+    {
+
     }
 }
