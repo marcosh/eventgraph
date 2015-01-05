@@ -66,8 +66,8 @@ class Event
     }
 
     /**
-     * @param string
-     * @param string id of the event
+     * @param string id of Tag
+     * @param string id of Event
      * @return Event
      */
     public function setPrev($tag, $event)
@@ -77,8 +77,8 @@ class Event
     }
 
     /**
-     * @param string
-     * @return mixed string id of the event or
+     * @param mixed null or string id of Tag
+     * @return mixed string id of Event or
      *      associative array with tags mapping to their previous event
      */
     public function getPrev($tag = null)
@@ -91,8 +91,8 @@ class Event
     }
 
     /**
-     * @param string
-     * @param string id of the event
+     * @param string id of Tag
+     * @param string id of Event
      * @return Event
      */
     public function setNext($tag, $event)
@@ -102,7 +102,7 @@ class Event
     }
 
     /**
-     * @param string
+     * @param mixed null or string id of Tag
      * @return mixed string id of the event or
      *      associative array with tags mapping to their previous event
      */
@@ -116,7 +116,7 @@ class Event
     }
 
     /**
-     * @param string
+     * @param string id of the Tag
      * @return Event
      */
     public function addTag($tag)
@@ -126,7 +126,7 @@ class Event
     }
 
     /**
-     * @param array of strings
+     * @param array of strings, id of Tags
      * @return Event
      */
     public function setTags(array $tags)
@@ -135,6 +135,9 @@ class Event
         return $this;
     }
 
+    /**
+     * @return array of Tag ids
+     */
     public function getTags()
     {
         return $this->tags;

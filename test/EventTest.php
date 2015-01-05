@@ -22,7 +22,7 @@ class EventTest extends \PHPUnit_Framework_TestCase
 
     public function testTags()
     {
-        $tags = ['tag1', 'tag2'];
+        $tags = ['#0:0', '#0:1'];
         $event = new Event();
         $event->setTags($tags);
         $this->assertEquals($tags, $event->getTags());
@@ -30,8 +30,8 @@ class EventTest extends \PHPUnit_Framework_TestCase
 
     public function testSingleAddedTags()
     {
-        $tag1 = 'tag1';
-        $tag2 = 'tag2';
+        $tag1 = '#0:0';
+        $tag2 = '#0:1';
         $event = new Event();
         $event->addTag($tag1);
         $event->addTag($tag2);
@@ -40,7 +40,7 @@ class EventTest extends \PHPUnit_Framework_TestCase
 
     public function testPrev()
     {
-        $tag = 'tag';
+        $tag = '#1:0';
         $prev = '#0:0';
         $event = new Event();
         $event->setPrev($tag, $prev);
@@ -49,7 +49,7 @@ class EventTest extends \PHPUnit_Framework_TestCase
 
     public function testPrevArray()
     {
-        $tag = 'tag';
+        $tag = '#1:0';
         $prev = '#0:0';
         $event = new Event();
         $event->setPrev($tag, $prev);
@@ -58,7 +58,7 @@ class EventTest extends \PHPUnit_Framework_TestCase
 
     public function testNext()
     {
-        $tag = 'tag';
+        $tag = '#1:0';
         $next = '#0:1';
         $event = new Event();
         $event->setNext($tag, $next);
@@ -67,7 +67,7 @@ class EventTest extends \PHPUnit_Framework_TestCase
 
     public function testArrayNext()
     {
-        $tag = 'tag';
+        $tag = '#1:0';
         $next = '#0:1';
         $event = new Event();
         $event->setNext($tag, $next);
@@ -77,12 +77,12 @@ class EventTest extends \PHPUnit_Framework_TestCase
     public function testOnlyEventReturnsNullPrevEvent()
     {
         $event = new Event();
-        $this->assertNull($event->getPrev('tag'));
+        $this->assertNull($event->getPrev('#1:0'));
     }
 
     public function testOnlyEventReturnsNullNextEvent()
     {
         $event = new Event();
-        $this->assertNull($event->getNext('tag'));
+        $this->assertNull($event->getNext('#1:0'));
     }
 }
