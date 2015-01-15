@@ -8,7 +8,7 @@ an event driven library using a graph database
 
 SCHEMA:
 
-- any TAG has a name and a reference to its first and last event
+- any TAG has a name and a reference to all its events
 - any event has a reference to all its tags and, for every tag, a reference to
     the previous and the next event
 
@@ -19,14 +19,16 @@ PREPARE DATABASE:
     create class Tag
     create class Event
 
-- create properties 
+- create properties
 
     create property Tag.name string
-    create property Tag.first link Event
-    create property Tag.last link Event
+    alter property Tag.name mandatory = true
+    create property Tag.history linklist Event
 
     create property Event.name string
+    alter property Event.name mandatory = true
     create property Event.ts datetime
+    alter property Event.ts mandatory = true
     create property Event.tags linkset Tag
     create property Event.prev linkmap Event
     create property Event.next linkmap Event
