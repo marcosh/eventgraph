@@ -4,71 +4,115 @@ namespace Marcosh\EventGraph;
 
 class Tags
 {
-    private $database;
+    // private $database;
 
-    public function __construct($database)
-    {
-        $this->database = $database;
-    }
+    // public function __construct($database)
+    // {
+    //     $this->database = $database;
+    // }
 
-    /**
-     * @param string
-     * @return Tag
-     */
-    public function createTag($tagName)
-    {
-        $tag = new Tag();
-        $tag->setName($tagName);
+    // /**
+    //  * @param string
+    //  * @return Tag
+    //  */
+    // public function createTag($tagName)
+    // {
+    //     $tag = new Tag();
+    //     $tag->setName($tagName);
 
-        return $tag;
-    }
+    //     return $tag;
+    // }
 
-    /**
-     * @param object record coming from the database
-     * @return Tag
-     */
-    private function createFromData(\PhpOrient\Protocols\Binary\Data\Record $record)
-    {
-        $data = $record->getOData();
+    // /**
+    //  * @param object record coming from the database
+    //  * @return Tag
+    //  */
+    // private function createFromData(\PhpOrient\Protocols\Binary\Data\Record $record)
+    // {
+    //     $data = $record->getOData();
 
-        $tag = new Tag();
-        $tag->setName($data['name'])
-            ->setFirstEvent($data['first'])
-            ->setLastEvent($data['last']);
-        return $tag;
-    }
+    //     $tag = new Tag();
+    //     $tag->setId($record->getRid())
+    //         ->setName($data['name']);
+    //     if (isset($data['first'])) {
+    //         $tag->setFirstEvent($data['first']);
+    //     }
+    //     if (isset($data['last'])) {
+    //         $tag->setLastEvent($data['last']);
+    //     }
+    //     return $tag;
+    // }
 
-    /**
-     * @param string
-     * @return Tag
-     */
-    public function getTag($tagName)
-    {
-        $query = 'select from Tag where name = "%tagName%"';
-        $data = array('%tagName%' => $tagName);
-        $tagData = $this->database->query(strtr($query, $data));
-        $tag = $this->createFromData($tagData[0]);
-    }
+    // /**
+    //  * @param string
+    //  * @return Tag
+    //  */
+    // public function getTag($tagName)
+    // {
+    //     $query = 'select from Tag where name = "%tagName%"';
+    //     $data = array('%tagName%' => $tagName);
+    //     $tagData = $this->database->query(strtr($query, $data));
+    //     return $this->createFromData($tagData[0]);
+    // }
 
-    /**
-     * @param Tag
-     */
-    public function saveTag($tag)
-    {
-        $query = 'update Tag set name = "%tagName%"';
-        $data = array('%tagName%' => $tag->getName());
+    // /**
+    //  * @param Tag
+    //  * @return string tag id
+    //  */
+    // public function saveTag($tag)
+    // {
+    //     if ($tag->getId()) {
+    //         return $this->updateTag($tag);
+    //     }
 
-        if ($tag->getFirstEvent()) {
-            $query .= ', first = %first%';
-            $data['%first%'] = $tag->getFirstEvent();
-        }
+    //     return $this->insertTag($tag);
+    // }
 
-        if ($tag->getLastEvent()) {
-            $query .= ', last = %last%';
-            $data['%last%'] = $tag->getLastEvent();
-        }
-        $query .= ' upsert where name = "%tagName%"';
+    // /**
+    //  * @param Tag
+    //  * @return string tag id
+    //  */
+    // private function insertTag($tag)
+    // {
+    //     $query = 'insert into Tag set name = "%name%"';
+    //     $data = ['%tagName%' => $tag->getName()];
 
-        $this->database->command(strtr($query, $data));
-    }
+    //     if ($tag->getFirstEvent()) {
+    //         $query .= ', first = %first%';
+    //         $data['%first%'] = $tag->getFirstEvent();
+    //     }
+
+    //     if ($tag->getLastEvent()) {
+    //         $query .= ', last = %last%';
+    //         $data['%last%'] = $tag->getLastEvent();
+    //     }
+
+    //     $this->database->command(strtr($query, $data));
+
+    //     return $this->database->lastInsertedId();
+    // }
+
+    // /**
+    //  * @param Tag
+    //  * @return string tag id
+    //  */
+    // private function updateTag($tag)
+    // {
+    //     $query = 'update %id% set name = "%name%"';
+    //     $data = ['%id%' => $tag->getId()];
+
+    //     if ($tag->getFirstEvent()) {
+    //         $query .= ', first = %first%';
+    //         $data['%first%'] = $tag->getFirstEvent();
+    //     }
+
+    //     if ($tag->getLastEvent()) {
+    //         $query .= ', last = %last%';
+    //         $data['%last%'] = $tag->getLastEvent();
+    //     }
+
+    //     $this->database->command(strtr($query, $data));
+
+    //     return $tag->getId();
+    // }
 }

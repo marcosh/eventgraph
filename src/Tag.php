@@ -4,72 +4,95 @@ namespace Marcosh\EventGraph;
 
 class Tag
 {
-    /**
-     * @var string
-     */
-    private $name;
+    // /**
+    //  * @var string
+    //  */
+    // private $id;
 
-    /**
-     * @var Event
-     */
-    private $first;
+    // /**
+    //  * @var string
+    //  */
+    // private $name;
 
-    /**
-     * @var Event
-     */
-    private $last;
+    // /**
+    //  * @var Event
+    //  */
+    // private $first;
 
-    /**
-     * @param string
-     * @return Tag
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-        return $this;
-    }
+    // /**
+    //  * @var Event
+    //  */
+    // private $last;
 
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
+    // /**
+    //  * @param string
+    //  * @return Tag
+    //  */
+    // public function setId($id)
+    // {
+    //     $this->id = $id;
+    //     return $this;
+    // }
 
-    /**
-     * @param string id of the event
-     * @return Tag
-     */
-    public function setFirstEvent($event)
-    {
-        $this->first = $event;
-        return $this;
-    }
+    // /**
+    //  * @return mixed null|string
+    //  */
+    // public function getId()
+    // {
+    //     return $this->id;
+    // }
 
-    /**
-     * @return string id of the event
-     */
-    public function getFirstEvent()
-    {
-        return $this->first;
-    }
+    // /**
+    //  * @param string
+    //  * @return Tag
+    //  */
+    // public function setName($name)
+    // {
+    //     $this->name = $name;
+    //     return $this;
+    // }
 
-    /**
-     * @param string id of the event
-     * @return Tag
-     */
-    public function setLastEvent($event)
-    {
-        $this->last = $event;
-        return $this;
-    }
+    // /**
+    //  * @return string
+    //  */
+    // public function getName()
+    // {
+    //     return $this->name;
+    // }
 
-    /**
-     * @return string id of the event
-     */
-    public function getLastEvent()
-    {
-        return $this->last;
-    }
+    // /**
+    //  * @param string id of the event
+    //  * @return Tag
+    //  */
+    // public function setFirstEvent($event)
+    // {
+    //     $this->first = $event;
+    //     return $this;
+    // }
+
+    // /**
+    //  * @return string id of the event
+    //  */
+    // public function getFirstEvent()
+    // {
+    //     return $this->first;
+    // }
+
+    // /**
+    //  * @param string id of the event
+    //  * @return Tag
+    //  */
+    // public function setLastEvent($event)
+    // {
+    //     $this->last = $event;
+    //     return $this;
+    // }
+
+    // /**
+    //  * @return string id of the event
+    //  */
+    // public function getLastEvent()
+    // {
+    //     return $this->last;
+    // }
 }
