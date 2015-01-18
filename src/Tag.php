@@ -2,97 +2,126 @@
 
 namespace Marcosh\EventGraph;
 
+use PhpOrient\Protocols\Binary\Data\Record;
+
 class Tag
 {
-    // /**
-    //  * @var string
-    //  */
-    // private $id;
+    /**
+     * @var string
+     */
+    private $name;
 
-    // /**
-    //  * @var string
-    //  */
-    // private $name;
+    /**
+     * @var array
+     */
+    private $history;
 
-    // /**
-    //  * @var Event
-    //  */
-    // private $first;
+    /**
+     * underlying Orient database record
+     */
+    private $record;
 
-    // /**
-    //  * @var Event
-    //  */
-    // private $last;
+    public function __construct()
+    {
+        $this->record = $this->createTagRecord();
+    }
 
-    // /**
-    //  * @param string
-    //  * @return Tag
-    //  */
-    // public function setId($id)
-    // {
-    //     $this->id = $id;
-    //     return $this;
-    // }
+    /**
+     * @param string
+     * @return Tag
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        $this->saveToRecord();
+        return $this;
+    }
 
-    // /**
-    //  * @return mixed null|string
-    //  */
-    // public function getId()
-    // {
-    //     return $this->id;
-    // }
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
-    // /**
-    //  * @param string
-    //  * @return Tag
-    //  */
-    // public function setName($name)
-    // {
-    //     $this->name = $name;
-    //     return $this;
-    // }
+    /**
+     * @param array of Event ids
+     * @return Tag
+     */
+    public function setHistory(array $history)
+    {
+        $this->history = $history;
+        $this->saveToRecord();
+        return $this;
+    }
 
-    // /**
-    //  * @return string
-    //  */
-    // public function getName()
-    // {
-    //     return $this->name;
-    // }
+    /**
+     * @param string Event id //TODO: are we sure we are using strings?
+     * @return Tag
+     */
+    public function addEvent($eventId)
+    {
+        $this->history[] = $eventId;
+        $this->saveToRecord();
+        return $this;
+    }
 
-    // /**
-    //  * @param string id of the event
-    //  * @return Tag
-    //  */
-    // public function setFirstEvent($event)
-    // {
-    //     $this->first = $event;
-    //     return $this;
-    // }
+    /**
+     * @return array of Event ids
+     */
+    public function getHistory()
+    {
+        return $this->history;
+    }
 
-    // /**
-    //  * @return string id of the event
-    //  */
-    // public function getFirstEvent()
-    // {
-    //     return $this->first;
-    // }
+    /**
+     * @param Record
+     * @return Tag
+     */
+    public function setRecord(Record $record)
+    {
+        if ($record->getOClass() != 'Tag') {
+            throw new \Exception('A Tag object can have only a "Tag" record');
+        }
 
-    // /**
-    //  * @param string id of the event
-    //  * @return Tag
-    //  */
-    // public function setLastEvent($event)
-    // {
-    //     $this->last = $event;
-    //     return $this;
-    // }
+        $this->record = $record;
+        $data = $record->getOData();
 
-    // /**
-    //  * @return string id of the event
-    //  */
-    // public function getLastEvent()
-    // {
-    //     return $this->last;
-    // }
+        if (isset($data['name'])) {
+            $this->name = $data['name'];
+        }
+
+        if (isset($data['history'])) {
+            $this->history = $data['history'];
+        }
+        return $this;
+    }
+
+    /**
+     * @return Record
+     */
+    public function getRecord()
+    {
+        return $this->record;
+    }
+
+    /**
+     * @return Record
+     */
+    private function createTagRecord()
+    {
+        $record = new Record();
+        $record->setOClass('Tag');
+        return $record;
+    }
+
+    private function saveToRecord()
+    {
+        $data = [
+            'name' => $this->name,
+            'history' => $this->history
+        ];
+        $this->record->setOData($data);
+    }
 }
