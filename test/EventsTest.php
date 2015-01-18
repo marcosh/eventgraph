@@ -1,6 +1,6 @@
 <?php
 
-namespace Marcosh\EventGraph;
+/*namespace Marcosh\EventGraph;
 
 use PhpOrient\Protocols\Binary\Data\Record;
 
@@ -66,4 +66,4 @@ class EventsTest extends \PHPUnit_Framework_TestCase
     //     $this->sut->saveEvent($event);*/
 
     // }
-}
+//}*/

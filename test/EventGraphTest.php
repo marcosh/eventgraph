@@ -1,6 +1,6 @@
 <?php
 
-namespace Marcosh\EventGraph;
+/*namespace Marcosh\EventGraph;
 
 use Marcosh\EventGraph\EventGraph;
 
@@ -27,4 +27,4 @@ class EventGraphTest extends \PHPUnit_Framework_TestCase
     //     $tag->setName('tag');
     //     $this->assertEquals($tag, $this->eventGraph->createTag('tag'));
     // }
-}
+}*/

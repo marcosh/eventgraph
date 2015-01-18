@@ -1,6 +1,6 @@
 <?php
 
-namespace Marcosh\EventGraph;
+/*namespace Marcosh\EventGraph;
 
 use PhpOrient\Protocols\Binary\Data\Record;
 
@@ -109,4 +109,4 @@ class TagsTest extends \PHPUnit_Framework_TestCase
     //         ->setFirstEvent('#1:1')->setLastEvent('#1:2');
     //     $this->sut->saveTag($tag);
     // }
-}
+}*/
