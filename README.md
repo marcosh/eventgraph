@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/marcosh/eventgraph.svg?branch=master)](https://travis-ci.org/marcosh/eventgraph)
 [![Coverage Status](https://img.shields.io/coveralls/marcosh/eventgraph.svg)](https://coveralls.io/r/marcosh/eventgraph)
+[![Dependency Status](https://www.versioneye.com/user/projects/54bbcf4a879d5170010001a2/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54bbcf4a879d5170010001a2)
+[![Code Climate](https://codeclimate.com/github/marcosh/eventgraph/badges/gpa.svg)](https://codeclimate.com/github/marcosh/eventgraph)
 
 eventgraph
 ==========
