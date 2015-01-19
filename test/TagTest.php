@@ -91,4 +91,44 @@ class TagTest extends \PHPUnit_Framework_TestCase
         $tag = new Tag();
         $tag->setRecord($record);
     }
+
+    public function testSetRecordSetsCorrectName()
+    {
+        $record = new Record();
+        $record->setOClass('Tag');
+        $name = 'name';
+        $data = ['name' => $name];
+        $record->setOData($data);
+        $tag = new Tag();
+        $tag->setRecord($record);
+        $this->assertEquals($name, $tag->getName());
+    }
+
+    public function testSetRecordSetsCorrectHistory()
+    {
+        $record = new Record();
+        $record->setOClass('Tag');
+        $history = ['#0:0', '#0:1'];
+        $data = ['history' => $history];
+        $record->setOData($data);
+        $tag = new Tag();
+        $tag->setRecord($record);
+        $this->assertEquals($history, $tag->getHistory());
+    }
+
+    public function testGetRecord()
+    {
+        $record = new Record();
+        $record->setOClass('Tag');
+        $name = 'name';
+        $history = ['#0:0', '#0:1'];
+        $data = [
+            'name' => $name,
+            'history' => $history
+        ];
+        $record->setOData($data);
+        $tag = new Tag();
+        $tag->setRecord($record);
+        $this->assertEquals($record, $tag->getRecord());
+    }
 }
