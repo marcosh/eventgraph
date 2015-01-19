@@ -4,30 +4,25 @@ namespace Marcosh\EventGraph;
 
 class Event
 {
-    // /**
-    //  * @var string
-    //  */
-    // private $name;
+    /**
+     * @var string
+     */
+    private $name;
 
-    // /**
-    //  * @var string date
-    //  */
-    // private $ts;
+    /**
+     * @var string date
+     */
+    private $ts;
 
-    // /**
-    //  * @var array of tags
-    //  */
-    // private $tags;
+    /**
+     * @var array of tags
+     */
+    private $tags;
 
-    // /**
-    //  * @var associative array mapping tags to events
-    //  */
-    // private $prev;
-
-    // /**
-    //  * @var associative array mapping tags to events
-    //  */
-    // private $next;
+    /**
+     * @var Record
+     */
+    private $record;
 
     // /**
     //  * @param string

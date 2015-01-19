@@ -11,8 +11,7 @@ an event driven library using a graph database
 SCHEMA:
 
 - any TAG has a name and a reference to all its events
-- any event has a reference to all its tags and, for every tag, a reference to
-    the previous and the next event
+- any event has a reference to all its tags
 
 PREPARE DATABASE:
 
@@ -32,8 +31,6 @@ PREPARE DATABASE:
     create property Event.ts datetime
     alter property Event.ts mandatory = true
     create property Event.tags linkset Tag
-    create property Event.prev linkmap Event
-    create property Event.next linkmap Event
 
 - create indeces
 
