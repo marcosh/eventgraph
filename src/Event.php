@@ -2,6 +2,8 @@
 
 namespace Marcosh\EventGraph;
 
+use PhpOrient\Protocols\Binary\Data\Record;
+
 class Event
 {
     /**
@@ -24,117 +26,131 @@ class Event
      */
     private $record;
 
-    // /**
-    //  * @param string
-    //  * @return Event
-    //  */
-    // public function setName($name)
-    // {
-    //     $this->name = $name;
-    //     return $this;
-    // }
+    public function __construct()
+    {
+        $this->record = $this->createEventRecord();
+    }
 
-    // /**
-    //  * @return string
-    //  */
-    // public function getName()
-    // {
-    //     return $this->name;
-    // }
+    /**
+     * @param string
+     * @return Event
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        $this->saveToRecord();
+        return $this;
+    }
 
-    // /**
-    //  * @param string date
-    //  * @return Event
-    //  */
-    // public function setTs($ts)
-    // {
-    //     $this->ts = $ts;
-    //     return $this;
-    // }
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
-    // /**
-    //  * @return string date
-    //  */
-    // public function getTs()
-    // {
-    //     return $this->ts;
-    // }
+    /**
+     * @param string date
+     * @return Event
+     */
+    public function setTs($ts)
+    {
+        $this->ts = $ts;
+        $this->saveToRecord();
+        return $this;
+    }
 
-    // /**
-    //  * @param string id of Tag
-    //  * @param string id of Event
-    //  * @return Event
-    //  */
-    // public function setPrev($tag, $event)
-    // {
-    //     $this->prev[$tag] = $event;
-    //     return $this;
-    // }
+    /**
+     * @return string date
+     */
+    public function getTs()
+    {
+        return $this->ts;
+    }
 
-    // *
-    //  * @param mixed null or string id of Tag
-    //  * @return mixed string id of Event or
-    //  *      associative array with tags mapping to their previous event
-     
-    // public function getPrev($tag = null)
-    // {
-    //     if ($tag === null) {
-    //         return $this->prev;
-    //     }
+    /**
+     * @param string id of the Tag
+     * @return Event
+     */
+    public function addTag($tag)
+    {
+        $this->tags[] = $tag;
+        $this->saveToRecord();
+        return $this;
+    }
 
-    //     return $this->prev[$tag];
-    // }
+    /**
+     * @param array of strings, id of Tags
+     * @return Event
+     */
+    public function setTags(array $tags)
+    {
+        $this->tags = $tags;
+        $this->saveToRecord();
+        return $this;
+    }
 
-    // /**
-    //  * @param string id of Tag
-    //  * @param string id of Event
-    //  * @return Event
-    //  */
-    // public function setNext($tag, $event)
-    // {
-    //     $this->next[$tag] = $event;
-    //     return $this;
-    // }
+    /**
+     * @return array of Tag ids
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
 
-    // /**
-    //  * @param mixed null or string id of Tag
-    //  * @return mixed string id of the event or
-    //  *      associative array with tags mapping to their previous event
-    //  */
-    // public function getNext($tag = null)
-    // {
-    //     if ($tag === null) {
-    //         return $this->next;
-    //     }
+    /**
+     * @param Record
+     * @return Tag
+     */
+    public function setRecord(Record $record)
+    {
+        if ($record->getOClass() != 'Event') {
+            throw new \Exception('A Tag object can have only a "Event" record');
+        }
 
-    //     return $this->next[$tag];
-    // }
+        $this->record = $record;
+        $data = $record->getOData();
 
-    // /**
-    //  * @param string id of the Tag
-    //  * @return Event
-    //  */
-    // public function addTag($tag)
-    // {
-    //     $this->tags[] = $tag;
-    //     return $this;
-    // }
+        if (isset($data['name'])) {
+            $this->name = $data['name'];
+        }
 
-    // /**
-    //  * @param array of strings, id of Tags
-    //  * @return Event
-    //  */
-    // public function setTags(array $tags)
-    // {
-    //     $this->tags = $tags;
-    //     return $this;
-    // }
+        if (isset($data['ts'])) {
+            $this->history = $data['ts'];
+        }
 
-    // /**
-    //  * @return array of Tag ids
-    //  */
-    // public function getTags()
-    // {
-    //     return $this->tags;
-    // }
+        if (isset($data['tags'])) {
+            $this->tags = $data['tags'];
+        }
+        return $this;
+    }
+
+    /**
+     * @return Record
+     */
+    public function getRecord()
+    {
+        return $this->record;
+    }
+
+    /**
+     * @return Record
+     */
+    private function createEventRecord()
+    {
+        $record = new Record();
+        $record->setOClass('Event');
+        return $record;
+    }
+
+    private function saveToRecord()
+    {
+        $data = [
+            'name' => $this->name,
+            'ts' => $this->ts,
+            'tags' => $this->tags
+        ];
+        $this->record->setOData($data);
+    }
 }
