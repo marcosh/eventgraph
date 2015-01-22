@@ -1,88 +1,182 @@
 <?php
 
-/*namespace Marcosh\EventGraph;
+namespace Marcosh\EventGraph;
+
+use PhpOrient\Protocols\Binary\Data\Record;
 
 class EventTest extends \PHPUnit_Framework_TestCase
 {
-    // public function testName()
-    // {
-    //     $name = 'event';
-    //     $event = new Event();
-    //     $event->setName($name);
-    //     $this->assertEquals($name, $event->getName());
-    // }
+    public function testCreationCreatesEventRecord()
+    {
+        $event = new Event();
+        $record = $event->getRecord();
+        $this->assertEquals('Event', $record->getOClass());
+    }
 
-    // public function testTs()
-    // {
-    //     $ts = '2015-01-02';
-    //     $event = new Event();
-    //     $event->setTs($ts);
-    //     $this->assertEquals($ts, $event->getTs());
-    // }
+    public function testSetName()
+    {
+        $name = 'name';
+        $event = new Event();
+        $event->setName($name);
+        $record = $event->getRecord();
+        $this->assertEquals($name, $record->getOData()['name']);
+    }
 
-    // public function testTags()
-    // {
-    //     $tags = ['#0:0', '#0:1'];
-    //     $event = new Event();
-    //     $event->setTags($tags);
-    //     $this->assertEquals($tags, $event->getTags());
-    // }
+    public function testGetName()
+    {
+        $name = 'event';
+        $event = new Event();
+        $event->setName($name);
+        $this->assertEquals($name, $event->getName());
+    }
 
-    // public function testSingleAddedTags()
-    // {
-    //     $tag1 = '#0:0';
-    //     $tag2 = '#0:1';
-    //     $event = new Event();
-    //     $event->addTag($tag1);
-    //     $event->addTag($tag2);
-    //     $this->assertEquals([$tag1, $tag2], $event->getTags());
-    // }
+    public function testSetTs()
+    {
+        $ts = 1234567890;
+        $event = new Event();
+        $event->setTs($ts);
+        $record = $event->getRecord();
+        $this->assertEquals($ts, $record->getOData()['ts']);
+    }
 
-    // public function testPrev()
-    // {
-    //     $tag = '#1:0';
-    //     $prev = '#0:0';
-    //     $event = new Event();
-    //     $event->setPrev($tag, $prev);
-    //     $this->assertEquals($prev, $event->getPrev($tag));
-    // }
+    public function testGetTs()
+    {
+        $ts = 1234567890;
+        $event = new Event();
+        $event->setTs($ts);
+        $this->assertEquals($ts, $event->getTs());
+    }
 
-    // public function testPrevArray()
-    // {
-    //     $tag = '#1:0';
-    //     $prev = '#0:0';
-    //     $event = new Event();
-    //     $event->setPrev($tag, $prev);
-    //     $this->assertEquals([$tag => $prev], $event->getPrev());
-    // }
+    public function testSetTags()
+    {
+        $tags = array('#0:0', '#0:1');
+        $event = new Event();
+        $event->setTags($tags);
+        $record = $event->getRecord();
+        $this->assertEquals($tags, $record->getOData()['tags']);
+    }
 
-    // public function testNext()
-    // {
-    //     $tag = '#1:0';
-    //     $next = '#0:1';
-    //     $event = new Event();
-    //     $event->setNext($tag, $next);
-    //     $this->assertEquals($next, $event->getNext($tag));
-    // }
+    public function testGetTags()
+    {
+        $tags = array('#0:0', '#0:1');
+        $event = new Event();
+        $event->setTags($tags);
+        $this->assertEquals($tags, $event->getTags());
+    }
 
-    // public function testArrayNext()
-    // {
-    //     $tag = '#1:0';
-    //     $next = '#0:1';
-    //     $event = new Event();
-    //     $event->setNext($tag, $next);
-    //     $this->assertEquals([$tag => $next], $event->getNext());
-    // }
+    public function testAddTag()
+    {
+        $tag = '#0:0';
+        $event = new Event();
+        $event->addTag($tag);
+        $record = $event->getRecord();
+        $this->assertEquals(array($tag), $record->getOData()['tags']);
+    }
 
-    // public function testOnlyEventReturnsNullPrevEvent()
-    // {
-    //     $event = new Event();
-    //     $this->assertNull($event->getPrev('#1:0'));
-    // }
+    public function testAddTagToEmptyHistory()
+    {
+        $tag = '#0:0';
+        $event = new Event();
+        $event->addTag($tag);
+        $this->assertEquals(array($tag), $event->getTags());
+    }
 
-    // public function testOnlyEventReturnsNullNextEvent()
-    // {
-    //     $event = new Event();
-    //     $this->assertNull($event->getNext('#1:0'));
-    // }
-}*/
+    public function testAddTagToPoupulatedTags()
+    {
+        $tags = array('#0:0');
+        $tag = '#0:1';
+        $event = new Event();
+        $event->setTags($tags);
+        $event->addTag($tag);
+        array_push($tags, $tag);
+        $this->assertEquals($tags, $event->getTags());
+    }
+
+    public function testNewEventHasEmptyTags()
+    {
+        $event = new Event();
+        $this->assertEmpty($event->getTags());
+    }
+
+    /**
+     * @expectedException Exception
+     */
+    public function testSetRecordThrowsIfWrongClass()
+    {
+        $record = new Record();
+        $record->setOClass('NotAnEvent');
+        $event = new Event();
+        $event->setRecord($record);
+    }
+
+    public function testSetRecordSetsCorrectName()
+    {
+        $record = new Record();
+        $record->setOClass('Event');
+        $name = 'name';
+        $data = ['name' => $name];
+        $record->setOData($data);
+        $event = new Event();
+        $event->setRecord($record);
+        $this->assertEquals($name, $event->getName());
+    }
+
+    public function testSetRecordSetsCorrectTs()
+    {
+        $record = new Record();
+        $record->setOClass('Event');
+        $ts = 1234567890;
+        $data = ['ts' => $ts];
+        $record->setOData($data);
+        $event = new Event();
+        $event->setRecord($record);
+        $this->assertEquals($ts, $event->getTs());
+    }
+
+    public function testSetRecordSetsCorrectTags()
+    {
+        $record = new Record();
+        $record->setOClass('Event');
+        $tags = ['#0:0', '#0:1'];
+        $data = ['tags' => $tags];
+        $record->setOData($data);
+        $event = new Event();
+        $event->setRecord($record);
+        $this->assertEquals($tags, $event->getTags());
+    }
+
+    public function testGetRecord()
+    {
+        $record = new Record();
+        $record->setOClass('Event');
+        $name = 'name';
+        $ts = 1234567890;
+        $tags = ['#0:0', '#0:1'];
+        $data = [
+            'name' => $name,
+            'ts' => $ts,
+            'tags' => $tags
+        ];
+        $record->setOData($data);
+        $event = new Event();
+        $event->setRecord($record);
+        $this->assertEquals($record, $event->getRecord());
+    }
+
+    public function testGetRecordRetrievesNameTsAndTags()
+    {
+        $name = 'name';
+        $ts = 1234567890;
+        $tags = ['#0:0', '#0:1'];
+        $event = new Event();
+        $event->setName($name);
+        $event->setTs($ts);
+        $event->setTags($tags);
+        $data = [
+            'name' => $name,
+            'ts' => $ts,
+            'tags' => $tags
+        ];
+        $this->assertEquals($data, $event->getRecord()->getOData());
+    }
+}
