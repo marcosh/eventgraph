@@ -117,7 +117,7 @@ class Event
         }
 
         if (isset($data['ts'])) {
-            $this->history = $data['ts'];
+            $this->ts = $data['ts'];
         }
 
         if (isset($data['tags'])) {
