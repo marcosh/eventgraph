@@ -56,7 +56,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array($event), $record->getOData()['history']);
     }
 
-    public function testAddEventFromEmptyHistory()
+    public function testAddEventToEmptyHistory()
     {
         $event = '#0:0';
         $tag = new Tag();
@@ -130,5 +130,19 @@ class TagTest extends \PHPUnit_Framework_TestCase
         $tag = new Tag();
         $tag->setRecord($record);
         $this->assertEquals($record, $tag->getRecord());
+    }
+
+    public function testGetRecordRetrievesNameAndHistory()
+    {
+        $name = 'name';
+        $history = ['#0:0', '#0:1'];
+        $tag = new Tag();
+        $tag->setName($name);
+        $tag->setHistory($history);
+        $data = [
+            'name' => $name,
+            'history' => $history
+        ];
+        $this->assertEquals($data, $tag->getRecord()->getOData());
     }
 }
