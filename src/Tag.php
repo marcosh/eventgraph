@@ -107,6 +107,14 @@ class Tag
     }
 
     /**
+     * @return Rid
+     */
+    public function getId()
+    {
+        return $this->record->getRid();
+    }
+
+    /**
      * @return Record
      */
     private function createTagRecord()

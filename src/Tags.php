@@ -56,7 +56,7 @@ class Tags
      */
     public function saveTag($tag)
     {
-        if ($tag->getRecord()->getRid()) { //probably this is not right, but how to know the cluster?
+        if ($tag->getId()) { //probably this is not right, but how to know the cluster?
             return $this->database->recordUpdate($tag);
         }
 

@@ -40,7 +40,7 @@ class Events
      */
     public function saveEvent(Event $event)
     {
-        if ($event->getRecord()->getRid()) { //probably this is not right, but how to know the cluster?
+        if ($event->getId()) { //probably this is not right, but how to know the cluster?
             return $this->database->recordUpdate($event);
         }
 
