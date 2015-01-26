@@ -2,62 +2,67 @@
 
 namespace Marcosh\Eventgraph;
 
+use PhpOrient\Protocols\Binary\Data\Record;
+
 class Events
 {
-    // private $database;
+    private $database;
 
-    // public function __construct($database)
-    // {
-    //     $this->database = $database;
-    // }
+    public function __construct($database)
+    {
+        $this->database = $database;
+    }
 
-    // /**
-    //  * @param string
-    //  * @param mixed Tag or array of Tags
-    //  * @return event
-    //  */
-    // public function createEvent($name, $tags)
-    // {
-    //     $event = new Event();
-    //     $event->setName($name)->setTs(date("Y-m-d H:i:s"));
+    /**
+     * @param string
+     * @param mixed Tag or array of Tags
+     * @return event
+     */
+    public function createEvent($name, $tags)
+    {
+        $event = new Event();
+        $event->setName($name)->setTs(date("Y-m-d H:i:s"));
 
-    //     if (is_array($tags)) {
-    //         $event->setTags($tags);
-    //     } else {
-    //         $event->setTags(array($tags));
-    //     }
+        if (is_array($tags)) {
+            $tagsIds = array_map(function ($tag) {
+                return $tag->getRecord->getRid();
+            }, $tags);
+            $event->setTags($tagsIds);
+        } else {
+            $event->setTags(array($tags->getRecord()->getRid()));
+        }
 
-    //     return $event;
-    // }
+        return $event;
+    }
 
-    // /**
-    //  * @param Event
-    //  */
-    // public function saveEvent(Event $event)
-    // {
-    //     $query = 'update Event set name = "%name%", ts = "%ts%", tags = [%tags%]';
-    //     $data = array(
-    //         '%name%' => $event->getName(),
-    //         '%ts%' => $event->getTs(),
-    //         '%tags%' => implode(',', $event->getTags())
-    //     );
+    /**
+     * @param Event
+     */
+    public function saveEvent(Event $event)
+    {
+        if ($event->getRecord()->getRid()) { //probably this is not right, but how to know the cluster?
+            return $this->database->recordUpdate($event);
+        }
 
-    //     if ($event->getPrev()) {
-    //         $query .= ', prev = {"%prevs%"}';
-    //         $data['%prevs%'] = "";
-    //     }
+        return $this->database->recordCreate($event);
+    }
 
-    //     if ($event->getNext()) {
-    //         $query .= ', next = {"%nexts%"}';
-    //         $data['%nexts%'] = "";
-    //     }
-    //     $query .= 'upsert where name = "%name%", ts = "%ts%", tags = [%tags%]';
+    /**
+     * @param object record coming from the database
+     * @return Event
+     */
+    private function createFromRecord(Record $record)
+    {
+        $event = new Event();
+        $event->setRecord($record);
 
-    //     $this->database->command(strtr($query, $data));
-    // }
+        return $event;
+    }
 
-    // public function getEvent($id)
-    // {
+    public function getEvent($id)
+    {
+        $event = $this->database->recordLoad(new ID($id))[0];
 
-    // }
+        return $event;
+    }
 }
