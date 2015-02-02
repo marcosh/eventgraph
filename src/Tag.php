@@ -126,10 +126,13 @@ class Tag
 
     private function saveToRecord()
     {
-        $data = [
-            'name' => $this->name,
-            'history' => $this->history
-        ];
+        $data = [];
+        if ($this->name) {
+            $data['name'] = $this->name;
+        }
+        if ($this->history) {
+            $data['history'] = $this->history;
+        }
         $this->record->setOData($data);
     }
 }

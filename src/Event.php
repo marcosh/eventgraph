@@ -154,11 +154,16 @@ class Event
 
     private function saveToRecord()
     {
-        $data = [
-            'name' => $this->name,
-            'ts' => $this->ts,
-            'tags' => $this->tags
-        ];
+        $data = [];
+        if ($this->name) {
+            $data['name'] = $this->name;
+        }
+        if ($this->ts) {
+            $data['ts'] = $this->ts;
+        }
+        if ($this->tags) {
+            $data['tags'] = $this->tags;
+        }
         $this->record->setOData($data);
     }
 }

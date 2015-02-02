@@ -3,6 +3,7 @@
 namespace Marcosh\Eventgraph;
 
 use PhpOrient\Protocols\Binary\Data\Record;
+use PhpOrient\Protocols\Binary\Data\ID;
 
 class Events
 {
@@ -40,11 +41,13 @@ class Events
      */
     public function saveEvent(Event $event)
     {
+        $record = $event->getRecord();
         if ($event->getId()) { //probably this is not right, but how to know the cluster?
-            return $this->database->recordUpdate($event);
+            return $this->database->recordUpdate($record);
         }
 
-        return $this->database->recordCreate($event);
+        $record->setRid(new ID());
+        return $this->database->recordCreate($event->getRecord());
     }
 
     /**
