@@ -1,68 +1,69 @@
 <?php
 
-/*namespace Marcosh\EventGraph;
+namespace Marcosh\EventGraph;
 
 use PhpOrient\Protocols\Binary\Data\Record;
 
 class TagsTest extends \PHPUnit_Framework_TestCase
 {
-    // private $sut;
+    private $sut;
 
-    // private $database;
+    private $database;
 
-    // public function setUp()
-    // {
-    //     $this->database = \Mockery::mock();
-    //     $this->sut = new Tags($this->database);
-    // }
+    public function setUp()
+    {
+        $this->database = \Mockery::mock();
+        $this->sut = new Tags($this->database);
+    }
 
-    // public function tearDown()
-    // {
-    //     \Mockery::close();
-    // }
+    public function tearDown()
+    {
+        \Mockery::close();
+    }
 
-    // public function testCreateTag()
-    // {
-    //     $tag = new Tag();
-    //     $tag->setName('tag');
-    //     $this->assertEquals($tag, $this->sut->createTag('tag'));
-    // }
+    public function testCreateTag()
+    {
+        $tag = new Tag();
+        $tag->setName('tag');
+        $this->assertEquals($tag, $this->sut->createTag('tag'));
+    }
 
-    // public function testCreateFromData()
-    // {
-    //     $method = new \ReflectionMethod(
-    //         '\Marcosh\EventGraph\Tags',
-    //         'createFromData'
-    //     );
-    //     $method->setAccessible(true);
+    public function testCreateFromRecord()
+    {
+        $method = new \ReflectionMethod(
+            '\Marcosh\EventGraph\Tags',
+            'createFromRecord'
+        );
+        $method->setAccessible(true);
 
-    //     $data = new Record();
-    //     $data->setOData(array(
-    //         'name' => 'tag',
-    //         'first' => '#0:0',
-    //         'last' => '#0:1'
-    //     ));
-    //     $tag = new Tag();
-    //     $tag->setName('tag')->setFirstEvent('#0:0')->setLastEvent('#0:1');
-    //     $this->assertEquals($tag, $method->invoke($this->sut, $data));
-    // }
+        $data = new Record();
+        $data->setOClass('Tag')
+            ->setOData(array(
+                'name' => 'tag',
+                'history' => ['#0:0', '#0:1']
+        ));
+        $tag = new Tag();
+        $tag->setName('tag');
+        $tag->setHistory(['#0:0', '#0:1']);
+        $this->assertEquals($tag, $method->invoke($this->sut, $data));
+    }
 
-    // public function testGetTag()
-    // {
-    //     $data = new Record();
-    //     $data->setOData(array(
-    //         '@rid' => '#1:1',
-    //         'name' => 'tag',
-    //         'first' => '#0:0',
-    //         'last' => '#0:1'
-    //     ));
+    public function testGetTag()
+    {
+        $data = new Record();
+        $data->setOClass('Tag')
+            ->setOData(array(
+                '@rid' => '#1:1',
+                'name' => 'tag',
+                'history' => ['#0:0', '#0:1']
+        ));
 
-    //     $query = 'select from Tag where name = "tag"';
-    //     $this->database->shouldReceive('query')->once()->with($query)
-    //         ->andReturn(array($data));
+        $query = 'select from Tag where name = "tag"';
+        $this->database->shouldReceive('query')->once()->with($query)
+            ->andReturn(array($data));
 
-    //     $this->sut->getTag('tag');
-    // }
+        $this->sut->getTag('tag');
+    }
 
     // public function testInsertTagWithoutEvents()
     // {
@@ -109,4 +110,4 @@ class TagsTest extends \PHPUnit_Framework_TestCase
     //         ->setFirstEvent('#1:1')->setLastEvent('#1:2');
     //     $this->sut->saveTag($tag);
     // }
-}*/
+}
