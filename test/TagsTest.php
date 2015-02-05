@@ -3,6 +3,7 @@
 namespace Marcosh\EventGraph;
 
 use PhpOrient\Protocols\Binary\Data\Record;
+use PhpOrient\Protocols\Binary\Data\ID;
 
 class TagsTest extends \PHPUnit_Framework_TestCase
 {
@@ -65,49 +66,33 @@ class TagsTest extends \PHPUnit_Framework_TestCase
         $this->sut->getTag('tag');
     }
 
-    // public function testInsertTagWithoutEvents()
-    // {
-    //     $this->database->shouldReceive('command')->once()
-    //         ->with('insert into Tag set name = "tag" upsert where name = "tag"');
+    public function testInsertTagWithoutEvents()
+    {
+        $tag = $this->sut->createTag('tag');
+        $this->database->shouldReceive('recordCreate')->once()
+            ->with($tag->getRecord());
 
-    //     $tag = $this->sut->createTag('tag');
-    //     $this->sut->saveTag($tag);
-    // }
+        $this->sut->saveTag($tag);
+    }
 
-    // public function testSaveTagWithFirstEvent()
-    // {
-    //     $this->database->shouldReceive('command')->once()
-    //         ->with(
-    //             'update Tag set name = "tag", first = #1:1 '.
-    //             'upsert where name = "tag"'
-    //         );
+    public function testSaveTagWithHistory()
+    {
+        $history = array('#0:0');
+        $tag = $this->sut->createTag('tag')->setHistory($history);
+        $tag->getRecord()->setRid(new ID(1, 1));
+        $this->database->shouldReceive('recordUpdate')->once()
+            ->with($tag->getRecord());
 
-    //     $tag = $this->sut->createTag('tag')->setFirstEvent('#1:1');
-    //     $this->sut->saveTag($tag);
-    // }
+        $this->sut->saveTag($tag);
+    }
 
-    // public function testSaveTagWithLastEvent()
-    // {
-    //     $this->database->shouldReceive('command')->once()
-    //         ->with(
-    //             'update Tag set name = "tag", last = #1:1 '.
-    //             'upsert where name = "tag"'
-    //         );
+    public function testSaveTagWithoutHistory()
+    {
+        $tag = $this->sut->createTag('tag');
+        $tag->getRecord()->setRid(new ID(1, 1));
+        $this->database->shouldReceive('recordUpdate')->once()
+            ->with($tag->getRecord());
 
-    //     $tag = $this->sut->createTag('tag')->setLastEvent('#1:1');
-    //     $this->sut->saveTag($tag);
-    // }
-
-    // public function testSaveTagWithFirstAndLastEvent()
-    // {
-    //     $this->database->shouldReceive('command')->once()
-    //         ->with(
-    //             'update Tag set name = "tag", first = #1:1, last = #1:2 '.
-    //             'upsert where name = "tag"'
-    //         );
-
-    //     $tag = $this->sut->createTag('tag')
-    //         ->setFirstEvent('#1:1')->setLastEvent('#1:2');
-    //     $this->sut->saveTag($tag);
-    // }
+        $this->sut->saveTag($tag);
+    }
 }
