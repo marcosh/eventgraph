@@ -26,7 +26,7 @@ class Events
 
         if (is_array($tags)) {
             $tagsIds = array_map(function ($tag) {
-                return $tag->getRecord->getRid();
+                return $tag->getRecord()->getRid();
             }, $tags);
             $event->setTags($tagsIds);
         } else {
@@ -42,7 +42,7 @@ class Events
     public function saveEvent(Event $event)
     {
         $record = $event->getRecord();
-        if ($event->getId()) { //probably this is not right, but how to know the cluster?
+        if ($event->getId()) {
             return $this->database->recordUpdate($record);
         }
 
