@@ -3,6 +3,7 @@
 namespace Marcosh\EventGraph;
 
 use PhpOrient\Protocols\Binary\Data\Record;
+use PhpOrient\Protocols\Binary\Data\ID;
 
 class EventTest extends \PHPUnit_Framework_TestCase
 {
@@ -49,7 +50,7 @@ class EventTest extends \PHPUnit_Framework_TestCase
 
     public function testSetTags()
     {
-        $tags = array('#0:0', '#0:1');
+        $tags = [new ID(0, 0), new ID(0, 1)];
         $event = new Event();
         $event->setTags($tags);
         $record = $event->getRecord();
@@ -58,7 +59,7 @@ class EventTest extends \PHPUnit_Framework_TestCase
 
     public function testGetTags()
     {
-        $tags = array('#0:0', '#0:1');
+        $tags = [new ID(0, 0), new ID(0, 1)];
         $event = new Event();
         $event->setTags($tags);
         $this->assertEquals($tags, $event->getTags());
@@ -66,7 +67,7 @@ class EventTest extends \PHPUnit_Framework_TestCase
 
     public function testAddTag()
     {
-        $tag = '#0:0';
+        $tag = new ID(0, 0);
         $event = new Event();
         $event->addTag($tag);
         $record = $event->getRecord();
@@ -75,7 +76,7 @@ class EventTest extends \PHPUnit_Framework_TestCase
 
     public function testAddTagToEmptyHistory()
     {
-        $tag = '#0:0';
+        $tag = new ID(0, 0);
         $event = new Event();
         $event->addTag($tag);
         $this->assertEquals(array($tag), $event->getTags());
@@ -83,8 +84,8 @@ class EventTest extends \PHPUnit_Framework_TestCase
 
     public function testAddTagToPoupulatedTags()
     {
-        $tags = array('#0:0');
-        $tag = '#0:1';
+        $tags = array(new ID(0, 0));
+        $tag = new ID(0, 1);
         $event = new Event();
         $event->setTags($tags);
         $event->addTag($tag);
@@ -137,7 +138,7 @@ class EventTest extends \PHPUnit_Framework_TestCase
     {
         $record = new Record();
         $record->setOClass('Event');
-        $tags = ['#0:0', '#0:1'];
+        $tags = [new ID(0, 0), new ID(0, 1)];
         $data = ['tags' => $tags];
         $record->setOData($data);
         $event = new Event();
@@ -151,7 +152,7 @@ class EventTest extends \PHPUnit_Framework_TestCase
         $record->setOClass('Event');
         $name = 'name';
         $ts = 1234567890;
-        $tags = ['#0:0', '#0:1'];
+        $tags = [new ID(0, 0), new ID(0, 1)];
         $data = [
             'name' => $name,
             'ts' => $ts,
@@ -167,7 +168,7 @@ class EventTest extends \PHPUnit_Framework_TestCase
     {
         $name = 'name';
         $ts = 1234567890;
-        $tags = ['#0:0', '#0:1'];
+        $tags = [new ID(0, 0), new ID(0, 1)];
         $event = new Event();
         $event->setName($name);
         $event->setTs($ts);

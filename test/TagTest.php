@@ -3,6 +3,7 @@
 namespace Marcosh\EventGraph;
 
 use PhpOrient\Protocols\Binary\Data\Record;
+use PhpOrient\Protocols\Binary\Data\ID;
 
 class TagTest extends \PHPUnit_Framework_TestCase
 {
@@ -32,7 +33,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
 
     public function testSetHistory()
     {
-        $history = array('#0:0', '#0:1');
+        $history = array(new ID(0, 0), new ID(0, 1));
         $tag = new Tag();
         $tag->setHistory($history);
         $record = $tag->getRecord();
@@ -41,7 +42,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
 
     public function testGetHistory()
     {
-        $history = array('#0:0', '#0:1');
+        $history = array(new ID(0, 0), new ID(0, 1));
         $tag = new Tag();
         $tag->setHistory($history);
         $this->assertEquals($history, $tag->getHistory());
@@ -49,7 +50,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
 
     public function testAddEvent()
     {
-        $event = '#0:0';
+        $event = new ID(0, 0);
         $tag = new Tag();
         $tag->addEvent($event);
         $record = $tag->getRecord();
@@ -58,7 +59,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
 
     public function testAddEventToEmptyHistory()
     {
-        $event = '#0:0';
+        $event = new ID(0, 0);
         $tag = new Tag();
         $tag->addEvent($event);
         $this->assertEquals(array($event), $tag->getHistory());
@@ -66,8 +67,8 @@ class TagTest extends \PHPUnit_Framework_TestCase
 
     public function testAddEventToPoupulatedHistory()
     {
-        $history = array('#0:0');
-        $event = '#0:1';
+        $history = array(new ID(0, 0));
+        $event = new ID(0, 1);
         $tag = new Tag();
         $tag->setHistory($history);
         $tag->addEvent($event);
@@ -108,7 +109,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
     {
         $record = new Record();
         $record->setOClass('Tag');
-        $history = ['#0:0', '#0:1'];
+        $history = [new ID(0, 0), new ID(0, 1)];
         $data = ['history' => $history];
         $record->setOData($data);
         $tag = new Tag();
@@ -121,7 +122,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
         $record = new Record();
         $record->setOClass('Tag');
         $name = 'name';
-        $history = ['#0:0', '#0:1'];
+        $history = [new ID(0, 0), new ID(0, 1)];
         $data = [
             'name' => $name,
             'history' => $history
@@ -135,7 +136,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
     public function testGetRecordRetrievesNameAndHistory()
     {
         $name = 'name';
-        $history = ['#0:0', '#0:1'];
+        $history = [new ID(0, 0), new ID(0, 1)];
         $tag = new Tag();
         $tag->setName($name);
         $tag->setHistory($history);
