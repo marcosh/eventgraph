@@ -65,4 +65,13 @@ class Tags
         $record->setRid(new ID());
         return $this->database->recordCreate($record);
     }
+
+    /**
+     * @param string
+     * @return array of Events
+     */
+    public function getTagHistory($tagName)
+    {
+        //TODO
+    }
 }
