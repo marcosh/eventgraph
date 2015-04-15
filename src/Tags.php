@@ -46,7 +46,7 @@ class Tags
     public function getTag($tagName)
     {
         $query = 'select from Tag where name = "%tagName%"';
-        $data = array('%tagName%' => $tagName);
+        $data = ['%tagName%' => $tagName];
         $tagData = $this->database->query(strtr($query, $data));
         return $this->createFromRecord($tagData[0]);
     }

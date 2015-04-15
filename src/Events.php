@@ -30,7 +30,7 @@ class Events
             }, $tags);
             $event->setTags($tagsIds);
         } else {
-            $event->setTags(array($tags->getRecord()->getRid()));
+            $event->setTags([$tags->getRecord()->getRid()]);
         }
 
         return $event;

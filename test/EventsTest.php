@@ -31,11 +31,11 @@ class EventsTest extends \PHPUnit_Framework_TestCase
         $tag->getRecord()->setRid(new ID(1, 1));
         $event = new Event();
         $event->setName('event')->setTs(date("Y-m-d H:i:s"))
-            ->setTags(array($tag->getId()));
+            ->setTags([$tag->getId()]);
 
         $this->assertEquals(
             $event,
-            $this->sut->createEvent('event', array($tag))
+            $this->sut->createEvent('event', [$tag])
         );
     }
 
@@ -45,7 +45,7 @@ class EventsTest extends \PHPUnit_Framework_TestCase
         $tag1->getRecord()->setRid(new ID(1, 1));
         $tag2 = new Tag();
         $tag2->getRecord()->setRid(new ID(1, 2));
-        $tags = array($tag1, $tag2);
+        $tags = [$tag1, $tag2];
         $tagsIds = array_map(function ($tag) {
             return $tag->getId();
         }, $tags);
@@ -65,7 +65,7 @@ class EventsTest extends \PHPUnit_Framework_TestCase
         $tag1->getRecord()->setRid(new ID(1, 1));
         $tag2 = new Tag();
         $tag2->getRecord()->setRid(new ID(1, 2));
-        $tags = array($tag1, $tag2);
+        $tags = [$tag1, $tag2];
         $event = $this->sut->createEvent('event', $tags);
         $this->database->shouldReceive('recordCreate')->once()
             ->with($event->getRecord());
@@ -90,7 +90,7 @@ class EventsTest extends \PHPUnit_Framework_TestCase
         $tag1->getRecord()->setRid(new ID(1, 1));
         $tag2 = new Tag();
         $tag2->getRecord()->setRid(new ID(1, 2));
-        $tags = array($tag1, $tag2);
+        $tags = [$tag1, $tag2];
         $event = $this->sut->createEvent('event', $tags);
         $event->getRecord()->setRid(new ID(2, 1));
         $this->database->shouldReceive('recordUpdate')->once()

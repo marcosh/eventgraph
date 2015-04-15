@@ -71,7 +71,7 @@ class EventTest extends \PHPUnit_Framework_TestCase
         $event = new Event();
         $event->addTag($tag);
         $record = $event->getRecord();
-        $this->assertEquals(array($tag), $record->getOData()['tags']);
+        $this->assertEquals([$tag], $record->getOData()['tags']);
     }
 
     public function testAddTagToEmptyHistory()
@@ -79,12 +79,12 @@ class EventTest extends \PHPUnit_Framework_TestCase
         $tag = new ID(0, 0);
         $event = new Event();
         $event->addTag($tag);
-        $this->assertEquals(array($tag), $event->getTags());
+        $this->assertEquals([$tag], $event->getTags());
     }
 
     public function testAddTagToPoupulatedTags()
     {
-        $tags = array(new ID(0, 0));
+        $tags = [new ID(0, 0)];
         $tag = new ID(0, 1);
         $event = new Event();
         $event->setTags($tags);

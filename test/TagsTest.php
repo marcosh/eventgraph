@@ -40,10 +40,10 @@ class TagsTest extends \PHPUnit_Framework_TestCase
         $data = new Record();
         $history = [new ID(0, 0), new ID(0, 1)];
         $data->setOClass('Tag')
-            ->setOData(array(
+            ->setOData([
                 'name' => 'tag',
                 'history' => $history
-        ));
+        ]);
         $tag = new Tag();
         $tag->setName('tag');
         $tag->setHistory($history);
@@ -55,22 +55,22 @@ class TagsTest extends \PHPUnit_Framework_TestCase
         $data = new Record();
         $history = [new ID(0, 0), new ID(0, 1)];
         $data->setOClass('Tag')
-            ->setOData(array(
+            ->setOData([
                 '@rid' => new ID(0, 0),
                 'name' => 'tag',
                 'history' => $history
-        ));
+        ]);
 
         $query = 'select from Tag where name = "tag"';
         $this->database->shouldReceive('query')->once()->with($query)
-            ->andReturn(array($data));
+            ->andReturn([$data]);
 
         $this->sut->getTag('tag');
     }
 
     public function testInsertTagWithHistory()
     {
-        $history = array(new ID(0, 0));
+        $history = [new ID(0, 0)];
         $tag = $this->sut->createTag('tag')->setHistory($history);
         $this->database->shouldReceive('recordCreate')->once()
             ->with($tag->getRecord());
@@ -89,7 +89,7 @@ class TagsTest extends \PHPUnit_Framework_TestCase
 
     public function testSaveTagWithHistory()
     {
-        $history = array(new ID(0, 0));
+        $history = [new ID(0, 0)];
         $tag = $this->sut->createTag('tag')->setHistory($history);
         $tag->getRecord()->setRid(new ID(1, 1));
         $this->database->shouldReceive('recordUpdate')->once()

@@ -33,7 +33,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
 
     public function testSetHistory()
     {
-        $history = array(new ID(0, 0), new ID(0, 1));
+        $history = [new ID(0, 0), new ID(0, 1)];
         $tag = new Tag();
         $tag->setHistory($history);
         $record = $tag->getRecord();
@@ -42,7 +42,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
 
     public function testGetHistory()
     {
-        $history = array(new ID(0, 0), new ID(0, 1));
+        $history = [new ID(0, 0), new ID(0, 1)];
         $tag = new Tag();
         $tag->setHistory($history);
         $this->assertEquals($history, $tag->getHistory());
@@ -54,7 +54,7 @@ class TagTest extends \PHPUnit_Framework_TestCase
         $tag = new Tag();
         $tag->addEvent($event);
         $record = $tag->getRecord();
-        $this->assertEquals(array($event), $record->getOData()['history']);
+        $this->assertEquals([$event], $record->getOData()['history']);
     }
 
     public function testAddEventToEmptyHistory()
@@ -62,12 +62,12 @@ class TagTest extends \PHPUnit_Framework_TestCase
         $event = new ID(0, 0);
         $tag = new Tag();
         $tag->addEvent($event);
-        $this->assertEquals(array($event), $tag->getHistory());
+        $this->assertEquals([$event], $tag->getHistory());
     }
 
     public function testAddEventToPoupulatedHistory()
     {
-        $history = array(new ID(0, 0));
+        $history = [new ID(0, 0)];
         $event = new ID(0, 1);
         $tag = new Tag();
         $tag->setHistory($history);
