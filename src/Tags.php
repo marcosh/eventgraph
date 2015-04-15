@@ -72,6 +72,10 @@ class Tags
      */
     public function getTagHistory($tagName)
     {
-        //TODO
+        $query = 'select expand(history) from Tag where name = "%tagName%"';
+        $data = ['%tagName%' => $tagName];
+        $events = $this->database->query(strtr($query, $data));
+
+        //TODO: hidrate events to Events
     }
 }
