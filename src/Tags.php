@@ -68,7 +68,7 @@ class Tags
 
     /**
      * @param string
-     * @return array of Events
+     * @return array of Records
      */
     public function getTagHistory($tagName)
     {
@@ -76,6 +76,6 @@ class Tags
         $data = ['%tagName%' => $tagName];
         $events = $this->database->query(strtr($query, $data));
 
-        //TODO: hidrate events to Events
+        return $events;
     }
 }

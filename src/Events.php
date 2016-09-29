@@ -54,7 +54,7 @@ class Events
      * @param object record coming from the database
      * @return Event
      */
-    private function createFromRecord(Record $record)
+    public function createFromRecord(Record $record)
     {
         $event = new Event();
         $event->setRecord($record);

@@ -9,12 +9,15 @@ class TagsTest extends \PHPUnit_Framework_TestCase
 {
     private $sut;
 
+    private $events;
+
     private $database;
 
     public function setUp()
     {
         $this->database = \Mockery::mock();
         $this->sut = new Tags($this->database);
+        $this->events = new Events($this->database);
     }
 
     public function tearDown()
@@ -106,5 +109,14 @@ class TagsTest extends \PHPUnit_Framework_TestCase
             ->with($tag->getRecord());
 
         $this->sut->saveTag($tag);
+    }
+
+    public function testGetTagHistory()
+    {
+        $tag = $this->sut->createTag('tag');
+        $event1 = $this->events->createEvent('event1', $tag);
+        $event2 = $this->events->createEvent('event2', $tag);
+
+        $this->database->shouldReceive('select expand(history) from Tag where name = "tag"');
     }
 }

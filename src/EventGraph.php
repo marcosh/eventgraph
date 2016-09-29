@@ -19,7 +19,7 @@ class EventGraph
         $client->dbOpen($databaseName);
 
         $this->events = new Events($client);
-        $this->tags = new Tags($client);
+        $this->tags = new Tags($client, $this->events);
     }
 
     /**
@@ -88,6 +88,12 @@ class EventGraph
      */
     public function getTagHistory($tagName)
     {
-        return $this->tags->getTagHistory($tagName);
+        $records = $this->tags->getTagHistory($tagName);
+
+        $events = $this->events;
+
+        return array_map(function ($record) use ($events) {
+            return $events->createFromRecord($record);
+        }, $records);
     }
 }

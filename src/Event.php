@@ -1,6 +1,6 @@
 <?php
 
-namespace Marcosh\EventGraph;
+namespace Marcosh\Eventgraph;
 
 use PhpOrient\Protocols\Binary\Data\Record;
 

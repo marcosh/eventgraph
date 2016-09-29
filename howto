@@ -1,0 +1,5 @@
+- go to /releases/orientdb-community-2.0-M3/bin
+- ./server.sh to start the server
+- ./console.sh to start the console
+- connet remote:localhost/mydb root password
+- http://localhost:2480
